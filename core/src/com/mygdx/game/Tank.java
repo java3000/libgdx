@@ -68,7 +68,7 @@ public class Tank {
             } else if (x - this.texture.getWidth() < 0) {
                 x -= 0 + (x - this.texture.getWidth());
             } else {
-                x -= speed * MathUtils.cosDeg(angle) * dt;
+                x -= speed * MathUtils.cosDeg(angle) * dt * 0.2f;
             }
 
             //1
@@ -77,7 +77,7 @@ public class Tank {
             } else if (y - this.texture.getHeight() < 0) {
                 y -= 0 - (this.texture.getHeight() - y);
             } else {
-                y -= speed * MathUtils.sinDeg(angle) * dt;
+                y -= speed * MathUtils.sinDeg(angle) * dt * 0.2f;
             }
         }
 
