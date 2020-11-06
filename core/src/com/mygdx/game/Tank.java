@@ -28,7 +28,7 @@ public class Tank {
         this.scale = 3.0f;
     }
 
-    public void update(float dt) {
+    public void update(float dt, Target target) {
         if (Gdx.input.isKeyPressed(Input.Keys.D)) {
             angle -= 90.0f * dt;
         }
@@ -42,13 +42,45 @@ public class Tank {
 //            angle += 90.0f;
 //        }
         if (Gdx.input.isKeyPressed(Input.Keys.W)) {
-            x += speed * MathUtils.cosDeg(angle) * dt;
-            y += speed * MathUtils.sinDeg(angle) * dt;
+
+            if (x + this.texture.getWidth() > Gdx.graphics.getWidth()) {
+                x += Gdx.graphics.getWidth() - (x + this.texture.getWidth());
+            } else if (x - this.texture.getWidth() < 0) {
+                x += 0 - (x - this.texture.getWidth());
+            } else {
+                x += speed * MathUtils.cosDeg(angle) * dt;
+            }
+
+            if (y + this.texture.getHeight() > Gdx.graphics.getHeight()) {
+                y += Gdx.graphics.getHeight() - (y + this.texture.getHeight());
+            } else if (y - this.texture.getHeight() < 0) {
+                y += 0 - (y - this.texture.getHeight());
+            } else {
+                y += speed * MathUtils.sinDeg(angle) * dt;
+            }
         }
+
         if (Gdx.input.isKeyPressed(Input.Keys.S)) {
-            x -= speed * MathUtils.cosDeg(angle) * dt * 0.2f;
-            y -= speed * MathUtils.sinDeg(angle) * dt * 0.2f;
+
+            //1
+            if (x + this.texture.getWidth() > Gdx.graphics.getWidth()) {
+                x -= (x + this.texture.getWidth() - Gdx.graphics.getWidth());
+            } else if (x - this.texture.getWidth() < 0) {
+                x -= 0 + (x - this.texture.getWidth());
+            } else {
+                x -= speed * MathUtils.cosDeg(angle) * dt;
+            }
+
+            //1
+            if (y + this.texture.getHeight() > Gdx.graphics.getHeight()) {
+                y -= (y + this.texture.getHeight()) - Gdx.graphics.getWidth();
+            } else if (y - this.texture.getHeight() < 0) {
+                y -= 0 - (this.texture.getHeight() - y);
+            } else {
+                y -= speed * MathUtils.sinDeg(angle) * dt;
+            }
         }
+
         if (Gdx.input.isKeyPressed(Input.Keys.Q)) {
             angleWeapon -= 90.0f * dt;
         }
@@ -59,7 +91,7 @@ public class Tank {
             projectile.shoot(x + 16 * scale * MathUtils.cosDeg(angle), y + 16* scale * MathUtils.sinDeg(angle), angle + angleWeapon);
         }
         if (projectile.isActive()) {
-            projectile.update(dt);
+            projectile.update(dt, target);
         }
     }
 
