@@ -34,12 +34,13 @@ public class Projectile {
         this.active = true;
     }
 
-    public void update(float dt) {
+    public void update(float dt, Target target) {
         x += vx * dt;
         y += vy * dt;
-        if (x < 0 || x > 1280 || y < 0 || y > 720) {
+        if (x < 0 || x > 1280 || y < 0 || y > 720 || target.isHit(x, y)) {
             deactivate();
         }
+
     }
 
     public void render(SpriteBatch batch) {
